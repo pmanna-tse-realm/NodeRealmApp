@@ -1,0 +1,122 @@
+{
+  "title": "MovieDetail",
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "_partition": {
+      "bsonType": "string"
+    },
+    "actors": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "string"
+      }
+    },
+    "awards": {
+      "bsonType": "object",
+      "properties": {
+        "nominations": {
+          "bsonType": "int"
+        },
+        "text": {
+          "bsonType": "string"
+        },
+        "wins": {
+          "bsonType": "int"
+        }
+      }
+    },
+    "countries": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "string"
+      }
+    },
+    "director": {
+      "bsonType": "string"
+    },
+    "genres": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "string"
+      }
+    },
+    "imdb": {
+      "bsonType": "object",
+      "properties": {
+        "id": {
+          "bsonType": "string"
+        },
+        "rating": {
+          "bsonType": "double"
+        },
+        "votes": {
+          "bsonType": "int"
+        }
+      }
+    },
+    "metacritic": {
+      "bsonType": "int"
+    },
+    "plot": {
+      "bsonType": "string"
+    },
+    "poster": {
+      "bsonType": "string"
+    },
+    "rated": {
+      "bsonType": "string"
+    },
+    "runtime": {
+      "bsonType": "int"
+    },
+    "title": {
+      "bsonType": "string"
+    },
+    "tomato": {
+      "bsonType": "object",
+      "properties": {
+        "consensus": {
+          "bsonType": "string"
+        },
+        "fresh": {
+          "bsonType": "int"
+        },
+        "image": {
+          "bsonType": "string"
+        },
+        "meter": {
+          "bsonType": "int"
+        },
+        "rating": {
+          "bsonType": "double"
+        },
+        "reviews": {
+          "bsonType": "int"
+        },
+        "userMeter": {
+          "bsonType": "int"
+        },
+        "userRating": {
+          "bsonType": "double"
+        },
+        "userReviews": {
+          "bsonType": "int"
+        }
+      }
+    },
+    "type": {
+      "bsonType": "string"
+    },
+    "writers": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "string"
+      }
+    },
+    "year": {
+      "bsonType": "int"
+    }
+  }
+}

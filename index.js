@@ -42,6 +42,9 @@ async function run() {
   } catch (error) {
     console.error(error);
   } finally {
+    if (user) {
+      user.logOut();
+    }
     console.log("Done");
   }
 }

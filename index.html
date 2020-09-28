@@ -1,6 +1,6 @@
 <html>
   <head>
-    <script src="https://unpkg.com/realm-web@0.8.0/dist/bundle.iife.js"></script>
+    <script src="https://unpkg.com/realm-web@0.9.0/dist/bundle.iife.js"></script>
     <script>
       const appId = "video-kvyxb"; // Set Realm app ID here.
       const appConfig = {
@@ -22,7 +22,7 @@
           const mongo = app.services.mongodb("mongodb-atlas");
           const coll = mongo.db("video").collection("movieDetails");
           
-          item = await coll.findOne({});
+          item = await coll.findOne({actors:"Robert De Niro"});
           console.dir(item);
         } finally {
           if (user) {

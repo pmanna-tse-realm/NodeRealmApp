@@ -1,2 +1,7 @@
 node_modules
 realm-object-server
+*.hprof
+.DS_Store
+build/
+.build/
+.vscode/

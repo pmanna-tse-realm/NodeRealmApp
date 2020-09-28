@@ -2,11 +2,11 @@ const Realm = require("realm");
 const ObjectId = require("bson").ObjectId;
 const schema = require("./schema");
 
-Realm.Sync.setLogLevel("error");
-
 const appId = "video-kvyxb";
 const app = new Realm.App({ id: appId });
 const credentials = Realm.Credentials.anonymous();
+
+Realm.App.Sync.setLogLevel(app, "error");
 
 async function run() {
   let user;
@@ -33,7 +33,7 @@ async function run() {
     console.log(`All movies: ${allMovies.length}`);
 
     // Do exactly the same, but through the RemoteMongoDB functionality
-    const mongoClient = user.remoteMongoClient("mongodb-atlas");
+    const mongoClient = user.mongoClient("mongodb-atlas");
     const mongoCollection = mongoClient.db("video").collection("movieDetails");
 
     let clientMovies  = await mongoCollection.find({_partition: "Global"});

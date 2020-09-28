@@ -4,11 +4,12 @@
   "description": "A Node App Realm Testbed",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Paolo",
   "license": "MIT",
   "dependencies": {
-    "realm": "^10.0.0-beta.12"
+    "realm": "^10.0.0-beta.13"
   }
 }

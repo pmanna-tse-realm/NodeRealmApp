@@ -1,6 +1,9 @@
 // Proper way under MongoDB 4.x
+
+// Rename old collection
 db.movieDetails.renameCollection("oldMovieDetails");
 
+// Prepare the aggregate operation to convert fields from on type to another
 ratingConversionStage = {
     $addFields: {
         "tomato.doubleUserRating": { $convert: { input: "$tomato.userRating", to: "double", onError: undefined, onNull: null } },
@@ -9,13 +12,19 @@ ratingConversionStage = {
     }
  };
  
- 
- db.oldMovieDetails.aggregate( [
+// Aggregate into the new collection, converting data
+// This creates embedded collections where none existed before, though
+db.oldMovieDetails.aggregate( [
     ratingConversionStage, {$out:"movieDetails"}
- ]);
+]);
 
+// Remove embedded collections, that were unduly added
 db.movieDetails.updateMany({"tomato.userRating": {$exists: false}},{"$unset": { "tomato": 1}});
+db.movieDetails.updateMany({"imdb.rating": {$exists: false}},{"$unset": { "imdb": 1}});
+
+// Remove all old data, and rename fileds to match original structure
 db.movieDetails.updateMany({},{"$unset": { "tomato.rating": 1, "tomato.userRating": 1, "imdb.rating": 1}});
 db.movieDetails.updateMany({},{"$rename": { "tomato.doubleRating":"tomato.rating", "tomato.doubleUserRating":"tomato.userRating", "imdb.doubleRating": "imdb.rating"}});
 
+// Finally, drop old collection
 db.oldMovieDetails.drop();

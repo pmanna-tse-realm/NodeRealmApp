@@ -1,5 +1,6 @@
 node_modules
 realm-object-server
+mongodb-realm/
 *.hprof
 .DS_Store
 build/

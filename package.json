@@ -10,6 +10,6 @@
   "author": "Paolo",
   "license": "MIT",
   "dependencies": {
-    "realm": "^10.0.0-rc.2"
+    "realm": "^10.0.1"
   }
 }

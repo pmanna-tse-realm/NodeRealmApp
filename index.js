@@ -26,6 +26,10 @@ async function run() {
       }
     };
 
+    if (process.env.CLEAN_REALM) {
+      Realm.deleteFile(config);
+    }
+    
     realm = await Realm.open(config);
 
     let allMovies = realm.objects("MovieDetail");

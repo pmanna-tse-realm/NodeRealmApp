@@ -4,22 +4,24 @@ const schema = require("./schema");
 
 const appId = "video-kvyxb";
 const app = new Realm.App({ id: appId });
-const credentials = Realm.Credentials.anonymous();
 
 Realm.App.Sync.setLogLevel(app, "error");
 
 async function run() {
-  let user;
+  let user  = app.currentUser;
   let realm;
+
   try {
-    user = await app.logIn(credentials);
+    if (!user) {
+      user = await app.logIn(Realm.Credentials.anonymous());
+    }
 
     console.log(`Logged in with the user: ${user.id}`);
 
     // Tries to find all objects in the partition, via Realm SDK
     const config = {
-      schema: [ schema.MovieDetail_awardsSchema, schema.MovieDetail_imdbSchema,
-        schema.MovieDetail_tomatoSchema,schema.MovieDetailSchema ],
+      schema: [ schema.AwardsSchema, schema.IMDBRatingSchema,
+        schema.TomatoRatingSchema,schema.MovieDetailSchema ],
       sync: {
         user: user,
         partitionValue: "Global"
@@ -46,9 +48,11 @@ async function run() {
   } catch (error) {
     console.error(error);
   } finally {
+    /* This clears the anonymous user
     if (user) {
       user.logOut();
     }
+    */
     console.log("Done");
   }
 }

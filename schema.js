@@ -1,5 +1,5 @@
-const MovieDetail_tomatoSchema = {
-  name: 'MovieDetail_tomato',
+const TomatoRatingSchema = {
+  name: 'TomatoRating',
   embedded: true,
   properties: {
     consensus: 'string?',
@@ -14,8 +14,8 @@ const MovieDetail_tomatoSchema = {
   },
 };
 
-const MovieDetail_imdbSchema = {
-  name: 'MovieDetail_imdb',
+const IMDBRatingSchema = {
+  name: 'IMDBRating',
   embedded: true,
   properties: {
     id: 'string?',
@@ -24,8 +24,8 @@ const MovieDetail_imdbSchema = {
   },
 };
 
-const MovieDetail_awardsSchema = {
-  name: 'MovieDetail_awards',
+const AwardsSchema = {
+  name: 'Awards',
   embedded: true,
   properties: {
     nominations: 'int?',
@@ -40,18 +40,18 @@ const MovieDetailSchema = {
     _id: 'objectId?',
     _partition: 'string?',
     actors: 'string[]',
-    awards: 'MovieDetail_awards',
+    awards: 'Awards',
     countries: 'string[]',
     director: 'string?',
     genres: 'string[]',
-    imdb: 'MovieDetail_imdb',
+    imdb: 'IMDBRating',
     metacritic: 'int?',
     plot: 'string?',
     poster: 'string?',
     rated: 'string?',
     runtime: 'int?',
     title: 'string?',
-    tomato: 'MovieDetail_tomato',
+    tomato: 'TomatoRating',
     type: 'string?',
     writers: 'string[]',
     year: 'int?',
@@ -59,7 +59,7 @@ const MovieDetailSchema = {
   primaryKey: '_id',
 };
 
-exports.MovieDetail_tomatoSchema = MovieDetail_tomatoSchema;
-exports.MovieDetail_imdbSchema = MovieDetail_imdbSchema;
-exports.MovieDetail_awardsSchema = MovieDetail_awardsSchema;
+exports.TomatoRatingSchema = TomatoRatingSchema;
+exports.IMDBRatingSchema = IMDBRatingSchema;
+exports.AwardsSchema = AwardsSchema;
 exports.MovieDetailSchema = MovieDetailSchema;

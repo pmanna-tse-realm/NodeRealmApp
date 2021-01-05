@@ -1,4 +1,5 @@
 // Proper way under MongoDB 4.x
+use video;
 
 // Rename old collection
 db.movieDetails.renameCollection("oldMovieDetails");
@@ -22,7 +23,7 @@ db.oldMovieDetails.aggregate( [
 db.movieDetails.updateMany({"tomato.userRating": {$exists: false}},{"$unset": { "tomato": 1}});
 db.movieDetails.updateMany({"imdb.rating": {$exists: false}},{"$unset": { "imdb": 1}});
 
-// Remove all old data, and rename fileds to match original structure
+// Remove all old data, and rename fields to match original structure
 db.movieDetails.updateMany({},{"$unset": { "tomato.rating": 1, "tomato.userRating": 1, "imdb.rating": 1}});
 db.movieDetails.updateMany({},{"$rename": { "tomato.doubleRating":"tomato.rating", "tomato.doubleUserRating":"tomato.userRating", "imdb.doubleRating": "imdb.rating"}});
 

@@ -1,6 +1,6 @@
 <html>
   <head>
-    <script src="https://unpkg.com/realm-web@1.0.0/dist/bundle.iife.js"></script>
+    <script src="https://unpkg.com/realm-web/dist/bundle.iife.js"></script>
     <script>
       const appId = "video-kvyxb"; // Set Realm app ID here.
       const appConfig = {
@@ -13,21 +13,27 @@
 
         try {
           const app         = new Realm.App(appConfig);
-          const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
+          
+          user = app.currentUser;
+          if (!user) {
+            const credentials = Realm.Credentials.anonymous(); // create an anonymous credential
 
-          user = await app.logIn(credentials);
+            user = await app.logIn(credentials);
+          }
 
           console.dir(user);
 
           const mongoClient = user.mongoClient("mongodb-atlas");
           const coll        = mongoClient.db("video").collection("movieDetails");
           
-          item = await coll.findOne({actors:"Robert De Niro"});
+          // item = await coll.findOne({actors:"Robert De Niro"});
+          item = await coll.findOne({_id: {$oid: "5f2a66b0327e331efd0e2aec"}});
+          
           console.dir(item);
         } finally {
-          if (user) {
-            user.logOut();
-          }
+          // if (user) {
+          //   user.logOut();
+          // }
         }
       }
       run().catch(console.dir);

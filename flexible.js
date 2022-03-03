@@ -5,7 +5,14 @@ const schema = require("./schema");
 const appId = "video-kvyxb";
 const app = new Realm.App({ id: appId });
 
-Realm.App.Sync.setLogLevel(app, "error");
+function logWithDate(message) {
+  let date = new Date();
+
+  console.log(`[${date.toISOString()}] - ${message}`)
+}
+
+Realm.App.Sync.setLogLevel(app, "debug");
+Realm.App.Sync.setLogger(app, (level, message) => logWithDate(`(${level}) ${message}`));
 
 async function run() {
   let user  = app.currentUser;
@@ -16,7 +23,7 @@ async function run() {
       user = await app.logIn(Realm.Credentials.anonymous());
     }
 
-    console.log(`Logged in with the user: ${user.id}`);
+    logWithDate(`Logged in with the user: ${user.id}`);
 
     // Tries to find all objects in the partition, via Realm SDK
     const config = {
@@ -24,7 +31,7 @@ async function run() {
         schema.TomatoRatingSchema,schema.MovieDetailSchema ],
       sync: {
         user: user,
-        partitionValue: "Global"
+        flexible: true
       }
     };
 
@@ -33,27 +40,28 @@ async function run() {
     }
     
     realm = await Realm.open(config);
-    
     let allMovies = realm.objects("MovieDetail");
+    
+    await realm.subscriptions.update((mutableSubs) => {
+      mutableSubs.add(allMovies.filtered('year <= 2000'), {name: 'Oldies'});
+      // mutableSubs.add(allMovies.filtered('director >= "Peter"'), {name: 'Directors'});
+    });
 
-    console.log(`All movies: ${allMovies.length}`);
+    await realm.subscriptions.waitForSynchronization();
 
-    // Do exactly the same, but through the RemoteMongoDB functionality
-    const mongoClient = user.mongoClient("mongodb-atlas");
-    const mongoCollection = mongoClient.db("video").collection("movieDetails");
-
-    let clientMovies  = await mongoCollection.find({_partition: "Global"});
-
-    console.log(`All movies (client): ${clientMovies.length}`);
+    logWithDate(`All movies: ${allMovies.length}`);
   } catch (error) {
     console.error(error);
   } finally {
-    /* This clears the anonymous user
-    if (user) {
-      user.logOut();
-    }
-    */
-    console.log("Done");
+    setTimeout(() => {
+      if (realm) {
+        realm.close();
+      }
+
+      logWithDate("Done");
+
+      process.exit(0);
+    }, 2000);
   }
 }
 
